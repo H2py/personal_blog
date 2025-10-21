@@ -7,12 +7,39 @@ const allPosts = await getCollection("blog");
 const posts: CollectionEntry<'blog'>[] = [...allPosts].sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))].sort((a, b) =>
+  a.localeCompare(b)
+);
 const pageTitle = "My Astro Learning Blog";
 ---
 <BaseLayout pageTitle={pageTitle}>
   <p class="lead-text">
     Field notes from building with Astro, plus experiments in front-end craft, writing, and tooling.
   </p>
+  {tags.length > 0 && (
+    <section class="tag-filter" aria-label="Filter posts by tag">
+      <button
+        type="button"
+        class="tag-filter-button"
+        data-filter-btn
+        data-filter="all"
+        aria-pressed="false"
+      >
+        All posts
+      </button>
+      {tags.map((tag) => (
+        <button
+          type="button"
+          class="tag-filter-button"
+          data-filter-btn
+          data-filter={tag}
+          aria-pressed="false"
+        >
+          {tag}
+        </button>
+      ))}
+    </section>
+  )}
   <section class="post-list">
     {posts.map((post) => (
       <BlogPost
@@ -20,7 +47,103 @@ const pageTitle = "My Astro Learning Blog";
         title={post.data.title}
         description={post.data.description}
         date={post.data.pubDate.toISOString()}
+        tags={post.data.tags}
       />
     ))}
   </section>
+  {tags.length > 0 && (
+    <script is:inline>
+      const filterButtons = Array.from(document.querySelectorAll("[data-filter-btn]"));
+      const postCards = Array.from(document.querySelectorAll(".post-list [data-post-tags]"));
+      if (filterButtons.length === 0 || postCards.length === 0) {
+        window.history.replaceState(null, "", window.location.pathname);
+      } else {
+        const params = new URLSearchParams(window.location.search);
+        const availableTags = new Set(
+          filterButtons.map((button) => button.dataset.filter || "").filter(Boolean)
+        );
+        availableTags.add("all");
+        const defaultTag = "all";
+        const initialTag = params.get("tag");
+        const startingTag =
+          initialTag && availableTags.has(initialTag) ? initialTag : defaultTag;
+
+        const setActive = (tag) => {
+          filterButtons.forEach((button) => {
+            const isActive = (button.dataset.filter || "") === tag;
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", isActive ? "true" : "false");
+          });
+
+          postCards.forEach((card) => {
+            const tagList = card.dataset.postTags
+              ? card.dataset.postTags
+                  .split(",")
+                  .map((value) => value.trim())
+                  .filter(Boolean)
+              : [];
+            const shouldShow = tag === "all" || tagList.includes(tag);
+            card.toggleAttribute("hidden", !shouldShow);
+          });
+
+          if (tag === "all") {
+            params.delete("tag");
+          } else {
+            params.set("tag", tag);
+          }
+
+          const nextUrl = `${window.location.pathname}${
+            params.toString() ? `?${params.toString()}` : ""
+          }`;
+          window.history.replaceState(null, "", nextUrl);
+        };
+
+        setActive(startingTag);
+
+        filterButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const selected = button.dataset.filter || defaultTag;
+            setActive(selected);
+          });
+        });
+      }
+    </script>
+  )}
 </BaseLayout>
+
+<style>
+  .tag-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 2.5rem 0 2rem;
+  }
+
+  .tag-filter-button {
+    border: 1px solid var(--border);
+    background-color: transparent;
+    color: var(--muted-foreground);
+    padding: 0.45rem 1.05rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .tag-filter-button:hover,
+  .tag-filter-button:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .tag-filter-button.is-active {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .post-list [hidden] {
+    display: none !important;
+  }
+</style>

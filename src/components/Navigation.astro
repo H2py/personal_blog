@@ -3,9 +3,8 @@ const showAuthorActions = import.meta.env.PUBLIC_AUTHOR_CAN_WRITE === 'true';
 const authorWriteUrl = import.meta.env.PUBLIC_AUTHOR_WRITE_URL ?? '/admin';
 
 const navItems = [
-  { href: '/about/', label: 'About' },
-  { href: '/blog/', label: 'Blog' },
-  { href: '/tags/', label: 'Tags' }
+  { href: '/', label: 'Home' },
+  { href: '/blog/', label: 'Blog' }
 ];
 ---
 <ul id="main-menu" class="nav-links" data-open="false">

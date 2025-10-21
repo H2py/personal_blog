@@ -4,14 +4,15 @@ interface Props {
   url: string;
   description?: string;
   date?: string;
+  tags?: string[];
 }
 
-const { title, url, description, date } = Astro.props as Props;
+const { title, url, description, date, tags = [] } = Astro.props as Props;
 const formattedDate = date
   ? new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(new Date(date))
   : undefined;
 ---
-<article class="post-card">
+<article class="post-card" data-post-tags={tags.join(',')}>
   <a href={url}>
     {formattedDate && (
       <div class="post-card-meta">
@@ -21,4 +22,11 @@ const formattedDate = date
     <h2 class="post-card-title">{title}</h2>
     {description && <p class="post-card-description">{description}</p>}
   </a>
+  {tags.length > 0 && (
+    <ul class="post-card-tags">
+      {tags.map((tag) => (
+        <li>{tag}</li>
+      ))}
+    </ul>
+  )}
 </article>

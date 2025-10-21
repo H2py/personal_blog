@@ -30,6 +30,10 @@ html.dark {
   --ring: oklch(0.7 0 0);
 }
 
+html {
+  background-color: var(--background);
+}
+
 *,
 *::before,
 *::after {
@@ -47,6 +51,10 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html:not([data-theme-ready]) body {
+  transition: none;
 }
 
 ::selection {
@@ -289,6 +297,25 @@ button {
 .post-card a:hover .post-card-title,
 .post-card a:focus-visible .post-card-title {
   color: var(--accent);
+}
+
+.post-card-tags {
+  margin: 1.15rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.post-card-tags li {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .post-meta {

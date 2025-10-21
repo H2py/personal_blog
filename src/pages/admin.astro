@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pageTitle = "Write a Post";
+const postTemplate = `---
+title: "Post Title"
+author: "Taeju Ahn"
+description: "One sentence summary."
+image:
+  url: "https://example.com/post-cover.jpg"
+  alt: "Describe the cover image."
+pubDate: 2025-01-31
+tags: ["astro", "notes"]
+---
+
+# Headline
+
+Start writing your story here.
+`;
+---
+<BaseLayout pageTitle={pageTitle}>
+  <section class="write-guide">
+    <p class="lead-text">
+      Posts live under <code>src/blog/</code>. Create a new Markdown file, preview locally, then commit and push.
+    </p>
+    <ol class="write-steps">
+      <li>
+        Run <code>pnpm run dev</code> for live preview. The site updates automatically when you save.
+      </li>
+      <li>
+        Create a file named like <code>src/blog/2025-01-31-new-note.md</code>. Stick to lowercase and hyphenated slugs.
+      </li>
+      <li>
+        Copy the template below, adjust the frontmatter, and write your content in Markdown.
+      </li>
+      <li>
+        Validate with <code>pnpm astro check</code> (installs <code>@astrojs/check</code> once) and build with <code>pnpm run build</code> when ready.
+      </li>
+      <li>
+        Commit your changes and push: <code>git add src/blog/&lt;file&gt;</code>, <code>git commit -m "Feat: Add new post"</code>, then <code>git push</code>.
+      </li>
+    </ol>
+  </section>
+
+  <section class="write-template">
+    <h2 class="section-heading">Frontmatter &amp; body starter</h2>
+    <p>Fields must match the content collection schema in <code>src/content/config.ts</code>.</p>
+    <pre class="code-block"><code>{postTemplate}</code></pre>
+  </section>
+</BaseLayout>

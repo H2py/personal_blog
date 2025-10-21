@@ -64,6 +64,8 @@
   const applyTheme = (theme) => {
     const root = document.documentElement;
     root.classList.toggle("dark", theme === "dark");
+    root.style.colorScheme = theme === "dark" ? "dark" : "light";
+    root.setAttribute("data-theme-ready", "true");
     window.localStorage.setItem("theme", theme);
     toggleButton?.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
   };

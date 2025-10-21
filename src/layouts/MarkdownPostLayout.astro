@@ -19,7 +19,7 @@ const formattedDate = new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).for
   <ul class="tag-list">
     {frontmatter.tags.map((tag: string) => (
       <li class="tag-pill">
-        <a href={`/tags/${tag}`}>{tag}</a>
+        <a href={`/blog/?tag=${encodeURIComponent(tag)}`}>{tag}</a>
       </li>
     ))}
   </ul>
