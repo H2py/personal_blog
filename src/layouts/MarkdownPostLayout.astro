@@ -1,36 +1,30 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+
 const { frontmatter } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(frontmatter.pubDate);
 ---
 <BaseLayout pageTitle={frontmatter.title}>
-   <p>{frontmatter.pubDate.toLocaleDateString()}</p>
-    <p><em>{frontmatter.description}</em></p>
-    <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
+  <section class="post-meta">
+    <time datetime={frontmatter.pubDate.toISOString()}>{formattedDate}</time>
+    <p class="post-summary">{frontmatter.description}</p>
+  </section>
 
-  <div class="tags">
+  {frontmatter.image?.url && (
+    <figure class="post-figure">
+      <img src={frontmatter.image.url} alt={frontmatter.image.alt} />
+    </figure>
+  )}
+
+  <ul class="tag-list">
     {frontmatter.tags.map((tag: string) => (
-      <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
+      <li class="tag-pill">
+        <a href={`/tags/${tag}`}>{tag}</a>
+      </li>
     ))}
-  </div>
+  </ul>
 
-  <slot />
+  <article class="post-content">
+    <slot />
+  </article>
 </BaseLayout>
-<style>
-  a {
-    color: #00539F;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    margin: 0.25em;
-    border: dotted 1px #a1a1a1;
-    border-radius: .5em;
-    padding: .5em 1em;
-    font-size: 1.15em;
-    background-color: #F8FCFD;
-  }
-</style>

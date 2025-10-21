@@ -1,4 +1,24 @@
 ---
-const { title, url } = Astro.props;
+interface Props {
+  title: string;
+  url: string;
+  description?: string;
+  date?: string;
+}
+
+const { title, url, description, date } = Astro.props as Props;
+const formattedDate = date
+  ? new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(new Date(date))
+  : undefined;
 ---
-<li><a href={url}>{title}</a></li>
+<article class="post-card">
+  <a href={url}>
+    {formattedDate && (
+      <div class="post-card-meta">
+        <time datetime={date}>{formattedDate}</time>
+      </div>
+    )}
+    <h2 class="post-card-title">{title}</h2>
+    {description && <p class="post-card-description">{description}</p>}
+  </a>
+</article>

@@ -1,15 +1,15 @@
 ---
 import Social from './Social.astro';
----
-<style>
-  footer {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-</style>
 
-<footer>
-  <Social platform="twitter" username="h2py8o" />
-  <Social platform="github" username="h2py" />
+const currentYear = new Date().getFullYear();
+const siteSignature = import.meta.env.PUBLIC_SITE_SIGNATURE ?? 'Personal Blog';
+---
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">© {currentYear} {siteSignature}. All rights reserved.</p>
+    <div class="footer-social">
+      <Social platform="twitter" username="h2py8o" />
+      <Social platform="github" username="h2py" />
+    </div>
+  </div>
 </footer>

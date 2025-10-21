@@ -1,15 +1,26 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BlogPost from '../components/BlogPost.astro';
 
 const allPosts = await getCollection("blog");
+const posts: CollectionEntry<'blog'>[] = [...allPosts].sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 const pageTitle = "My Astro Learning Blog";
-
 ---
 <BaseLayout pageTitle={pageTitle}>
-  <p>This is where I will post about my journey learning Astro.</p>
-  <ul>
-    {allPosts.map((post: any) => <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />)}
-  </ul>
+  <p class="lead-text">
+    Field notes from building with Astro, plus experiments in front-end craft, writing, and tooling.
+  </p>
+  <section class="post-list">
+    {posts.map((post) => (
+      <BlogPost
+        url={`/posts/${post.id}/`}
+        title={post.data.title}
+        description={post.data.description}
+        date={post.data.pubDate.toISOString()}
+      />
+    ))}
+  </section>
 </BaseLayout>

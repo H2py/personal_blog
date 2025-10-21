@@ -1,8 +1,22 @@
 ---
+const showAuthorActions = import.meta.env.PUBLIC_AUTHOR_CAN_WRITE === 'true';
+const authorWriteUrl = import.meta.env.PUBLIC_AUTHOR_WRITE_URL ?? '/admin';
+
+const navItems = [
+  { href: '/about/', label: 'About' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/tags/', label: 'Tags' }
+];
 ---
-<div id="main-menu" class="nav-links">
-  <a href="/">Home</a>
-  <a href="/about/">About</a>
-  <a href="/blog/">Blog</a>
-  <a href="/tags/">Tags</a>
-</div>
+<ul id="main-menu" class="nav-links" data-open="false">
+  {navItems.map((item) => (
+    <li class="nav-item">
+      <a href={item.href} class="nav-link">{item.label}</a>
+    </li>
+  ))}
+  {showAuthorActions && (
+    <li class="nav-item">
+      <a href={authorWriteUrl} class="nav-link write-button">Write</a>
+    </li>
+  )}
+</ul>
