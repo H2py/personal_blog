@@ -1,13 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Greeting from '../components/Greeting';
+import GreetingIsland from '../components/GreetingIsland.astro';
 
 const pageTitle = "Personal Blog";
 const greetingMessages = ["Hej", "Hallo", "Hola", "Habari"];
 ---
+<!-- cspell:ignore Habari -->
 <BaseLayout pageTitle={pageTitle}>
   <p class="lead-text">
     A living notebook for experiments in Astro, thoughtful UI, and the craft of writing on the web.
   </p>
-  <Greeting client:load messages={greetingMessages} />
+  <GreetingIsland messages={greetingMessages} />
 </BaseLayout>

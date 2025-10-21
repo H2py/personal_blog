@@ -1,0 +1,6 @@
+---
+import Greeting from './Greeting.jsx';
+
+const { messages = [] } = Astro.props as { messages?: string[] };
+---
+<Greeting client:load messages={messages} />
