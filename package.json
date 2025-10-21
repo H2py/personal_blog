@@ -9,6 +9,14 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/preact": "^4.1.1",
     "astro": "^5.14.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.5",
+    "@tailwindcss/vite": "4.1.15",
+    "preact": "10.27.2",
+    "tailwindcss": "4.1.15",
+    "typescript": "^5.9.3"
   }
 }
