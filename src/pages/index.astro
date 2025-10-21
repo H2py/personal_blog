@@ -1,27 +1,7 @@
 ---
-const home = "Home Page";
+import BaseLayout from "../layouts/BaseLayout.astro"
+const pageTitle = "Home Page";
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{home}</title>
-	</head>
-	<body>
-		<a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/blog/">Blog</a>
-
-		<h1>Taeju's new blog</h1>
-		<p>This is where I post my post about my journey</p>
-
-		<ul>
-			<li><a href="/posts/post-1">Post1</a></li>
-			<li><a href="/posts/post-2">Post2</a></li>
-			<li><a href="/posts/post-3">Post3</a></li>
-		</ul>
-	</body>
-</html>
+<BaseLayout pageTitle={pageTitle}>
+	<h1>My awesome Blog</h1>
+</BaseLayout>

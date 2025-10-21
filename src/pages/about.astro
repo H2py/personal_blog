@@ -1,4 +1,8 @@
 ---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
 const pageTitle = "About Me";
 
 const identity = {
@@ -8,7 +12,7 @@ const identity = {
     hobbies: ["Coding", "Reading the books", "Writing the articles"]
 };
 
-const skills = ["HTML", "CSS", "JavaScript", "React", "Astro", "Writing Docs"];
+const skills = ["HTML", "CSS", "JavaScript", "React", "Astro"];
 const skillColor = "crimson";
 ---
 
@@ -24,22 +28,24 @@ const skillColor = "crimson";
         </style>
 	</head>
 	<body>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/blog/">Blog</a>
+        <Header />
+
 
 		<h1 class="text-purple-400 font-medium">{pageTitle}</h1>
-        <h2>... and my new Astro site!</h2>
-
-        <p>Here a few factors of me : </p>
         <ul>
             <li>My name is {identity.firstName + identity.lastName}</li>
             <li>I live in {identity.country} and I'm thinking about what is a good life?</li>
+            <br>
             {identity.hobbies.length >= 2 && <li>Two of my hobbies are: {identity.hobbies[0]} and {identity.hobbies[1]}</li> }
         </ul>
+        <br>
         <p>My skills are : </p>
         <ul>
-            {skills.map(skill => <li>{skill}</li>)}
+            {skills.map(skill => <li class={skillColor}>{skill}</li>)}
         </ul>
+        <Footer />
+        <script>
+            import "../scripts/menu.js";
+        </script>
 	</body>
 </html>
